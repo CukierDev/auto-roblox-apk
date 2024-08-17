@@ -14,52 +14,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-
-    - name: Install Puppeteer
+    - name: Download certificates
       run: |
-        npm install puppeteer
+        sudo apt install libnss3 nss-plugin-pem ca-certificates
 
     - name: Download the XAPK file using Puppeteer
       run: |
-        node -e "
-        const fs = require('fs');
-        const puppeteer = require('puppeteer');
-        const https = require('https');
-        const path = require('path');
-
-        (async () => {
-          const browser = await puppeteer.launch();
-          const page = await browser.newPage();
-          await page.goto('https://d.apkpure.com/b/XAPK/com.roblox.client?version=latest');
-          setTimeout(function(){
-            
-          }, 5000);
-
-          const downloadLink = await page.evaluate(() => {
-            return document.querySelector('a[href*="https://download.apkpure.com"]').href;
-          });
-
-          console.log('Download link:', downloadLink);
-          const file = fs.createWriteStream(path.join(__dirname, 'downloaded_file.xapk'));
-
-          https.get(downloadLink, (response) => {
-            response.pipe(file);
-            file.on('finish', () => {
-              file.close(() => {
-                console.log('Download completed and saved as downloaded_file.xapk');
-              });
-            });
-          }).on('error', (err) => {
-            fs.unlink(path.join(__dirname, 'downloaded_file.xapk')); // Delete the file on error
-            console.error('Error downloading the file:', err.message);
-          });
-          await browser.close();
-        })();
-        "
+        curl_chrome116 -L -o downloaded_file.xapk "https://d.apkpure.com/b/XAPK/com.roblox.client?version=latest" --cacert /etc/ssl/certs/ca-bundle.crt
 
     - name: Install dependencies
       run: |
