@@ -35,7 +35,9 @@ jobs:
           const browser = await puppeteer.launch();
           const page = await browser.newPage();
           await page.goto('https://d.apkpure.com/b/XAPK/com.roblox.client?version=latest');
-          await page.waitForTimeout(10000);
+          setTimeout(function(){
+            
+          }, 5000);
 
           const downloadLink = await page.evaluate(() => {
             return document.querySelector('a[href*="https://download.apkpure.com"]').href;
