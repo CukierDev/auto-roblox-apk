@@ -17,10 +17,12 @@ jobs:
     - name: Download certificates
       run: |
         sudo apt install libnss3 nss-plugin-pem ca-certificates
+        wget https://github.com/lwthiker/curl-impersonate/releases/download/v0.6.1/curl-impersonate-v0.6.1.x86_64-linux-gnu.tar.gz
+        tar -xvzf curl-impersonate-v0.6.1.x86_64-linux-gnu.tar.gz
 
-    - name: Download the XAPK file using Puppeteer
+    - name: Download the XAPK file
       run: |
-        curl_chrome116 -L -o downloaded_file.xapk "https://d.apkpure.com/b/XAPK/com.roblox.client?version=latest" --cacert /etc/ssl/certs/ca-bundle.crt
+        curl-impersonate-v0.6.1.x86_64-linux-gnu/curl_chrome116 -L -o downloaded_file.xapk "https://d.apkpure.com/b/XAPK/com.roblox.client?version=latest" --cacert /etc/ssl/certs/ca-bundle.crt
 
     - name: Install dependencies
       run: |
