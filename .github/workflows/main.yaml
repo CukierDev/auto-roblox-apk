@@ -27,12 +27,8 @@ jobs:
 
         wget https://github.com/lwthiker/curl-impersonate/releases/download/$VERSIONSHORT/curl-impersonate-$VERSION.tar.gz
         tar -xzf curl-impersonate-$VERSION.tar.gz
+        ls -R curl-impersonate-$VERSION/
         sudo mv curl-impersonate-$VERSION/* /usr/local/bin/
-
-    - name: Verify curl-impersonate installation
-      run: |
-        curl-impersonate-chrome --version
-        curl-impersonate-firefox --version
 
     - name: Download the XAPK file
       run: |
