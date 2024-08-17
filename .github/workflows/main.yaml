@@ -22,9 +22,6 @@ jobs:
         # Download and add the GPG key
         wget -qO - https://curl.se/ca/curl-impersonate.asc | sudo tee /etc/apt/trusted.gpg.d/curl-impersonate.asc
 
-        # Add the repository for curl-impersonate
-        echo "deb [signed-by=/etc/apt/trusted.gpg.d/curl-impersonate.asc] https://deb.debian.org/debian testing main" | sudo tee /etc/apt/sources.list.d/curl-impersonate.list
-
         # Update the package list again and install curl-impersonate
         sudo apt-get update
         sudo apt-get install -y curl-impersonate-ff
