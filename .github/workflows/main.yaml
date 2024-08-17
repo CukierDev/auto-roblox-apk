@@ -16,17 +16,17 @@ jobs:
       
     - name: Download the XAPK file
       run: |
-        curl -L -o app.xapk "https://d.apkpure.com/b/XAPK/com.roblox.client?version=latest"
+        curl -L -o downloaded_file.xapk "https://d.apkpure.com/b/XAPK/com.roblox.client?version=latest"
       
     - name: Install dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y unzip
       
-    - name: Unpack the XAPK file
+    - name: Unpack the downloaded file
       run: |
         mkdir unpacked
-        unzip app.xapk -d unpacked
+        unzip downloaded_file.xapk -d unpacked
       
     - name: Find APK files
       id: find_apks
@@ -35,6 +35,7 @@ jobs:
         echo "APK_FILES=$apk_files" >> $GITHUB_ENV
       
     - name: Create a GitHub release
+      id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -49,5 +50,5 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ${{ env.APK_FILES }}
-        asset_name: ${{ env.APK_FILES }}
+        asset_name: $(basename ${{ env.APK_FILES }})
         asset_content_type: application/vnd.android.package-archive
