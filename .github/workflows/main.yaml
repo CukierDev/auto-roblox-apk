@@ -18,15 +18,20 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y wget curl ca-certificates gnupg
-        
-        # Download and add the GPG key
-        wget -qO - https://curl.se/ca/curl-impersonate.asc | sudo tee /etc/apt/trusted.gpg.d/curl-impersonate.asc
-
-        # Update the package list again and install curl-impersonate
-        sudo apt-get update
-        sudo apt-get install -y curl-impersonate-ff
-        sudo apt-get install -y curl-impersonate-chrome
         sudo apt-get install -y unzip
+
+    - name: Download and extract curl-impersonate
+      run: |
+        VERSION="v0.5.4"
+
+        wget https://github.com/lwthiker/curl-impersonate/releases/download/$VERSION/curl-impersonate-$VERSION.tar.gz
+        tar -xzf curl-impersonate-$VERSION.tar.gz
+        sudo mv curl-impersonate-$VERSION/bin/* /usr/local/bin/
+
+    - name: Verify curl-impersonate installation
+      run: |
+        curl-impersonate-chrome --version
+        curl-impersonate-firefox --version
 
     - name: Download the XAPK file
       run: |
