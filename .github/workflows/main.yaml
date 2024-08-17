@@ -14,20 +14,26 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Download certificates
+    - name: Install dependecies
       run: |
-        sudo apt install libnss3 nss-plugin-pem ca-certificates
-        wget https://github.com/lwthiker/curl-impersonate/releases/download/v0.6.1/curl-impersonate-v0.6.1.x86_64-linux-gnu.tar.gz
-        tar -xvzf curl-impersonate-v0.6.1.x86_64-linux-gnu.tar.gz
+        sudo apt-get update
+        sudo apt-get install -y wget curl ca-certificates gnupg
+        
+        # Download and add the GPG key
+        wget -qO - https://curl.se/ca/curl-impersonate.asc | sudo tee /etc/apt/trusted.gpg.d/curl-impersonate.asc
+
+        # Add the repository for curl-impersonate
+        echo "deb [signed-by=/etc/apt/trusted.gpg.d/curl-impersonate.asc] https://deb.debian.org/debian testing main" | sudo tee /etc/apt/sources.list.d/curl-impersonate.list
+
+        # Update the package list again and install curl-impersonate
+        sudo apt-get update
+        sudo apt-get install -y curl-impersonate-ff
+        sudo apt-get install -y curl-impersonate-chrome
+        sudo apt-get install -y unzip
 
     - name: Download the XAPK file
       run: |
-        curl-impersonate-v0.6.1.x86_64-linux-gnu/curl_chrome116 -L -o downloaded_file.xapk "https://d.apkpure.com/b/XAPK/com.roblox.client?version=latest" --cacert /etc/ssl/certs/ca-bundle.crt
-
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y unzip
+        curl_chrome116 -L -o downloaded_file.xapk "https://d.apkpure.com/b/XAPK/com.roblox.client?version=latest" --cacert /etc/ssl/certs/ca-bundle.crt
 
     - name: Unpack the downloaded file
       run: |
