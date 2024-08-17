@@ -18,7 +18,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y wget curl ca-certificates gnupg
-        sudo apt-get install -y unzip
+        sudo apt-get install -y unzip tar
 
     - name: Download and extract curl-impersonate
       run: |
