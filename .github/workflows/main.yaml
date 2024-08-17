@@ -27,32 +27,13 @@ jobs:
       run: |
         node -e "
         const puppeteer = require('puppeteer');
-        const fs = require('fs');
-        const path = require('path');
-        const url = require('url');
 
         (async () => {
           const browser = await puppeteer.launch();
           const page = await browser.newPage();
-
-          // Monitor responses to download the file
-          page.on('response', async (response) => {
-            const responseUrl = response.url();
-            if (responseUrl.endsWith('.xapk')) {
-              const downloadPath = path.resolve(__dirname, 'downloaded_file.xapk');
-              const buffer = await response.buffer();
-              fs.writeFileSync(downloadPath, buffer);
-            }
-          });
-
-          await page.goto('https://d.apkpure.com/b/XAPK/com.roblox.client?version=latest', { waitUntil: 'networkidle2' });
-
-          // Trigger the download by clicking the appropriate link/button
-          await page.click('a[download]');  // Adjust this selector based on the download button
-
-          // Wait for the download to finish
-          await page.waitForTimeout(20000);  // Increase timeout if needed
-
+          await page.goto('https://example.com');
+          const content = await page.content();
+          console.log(content);
           await browser.close();
         })();
         "
