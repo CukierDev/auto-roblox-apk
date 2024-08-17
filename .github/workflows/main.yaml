@@ -22,11 +22,11 @@ jobs:
 
     - name: Download and extract curl-impersonate
       run: |
-        VERSION="v0.5.4"
+        VERSION="v0.6.1.x86_64-linux-gnu"
 
         wget https://github.com/lwthiker/curl-impersonate/releases/download/$VERSION/curl-impersonate-$VERSION.tar.gz
         tar -xzf curl-impersonate-$VERSION.tar.gz
-        sudo mv curl-impersonate-$VERSION/bin/* /usr/local/bin/
+        sudo mv curl-impersonate-$VERSION/* /usr/local/bin/
 
     - name: Verify curl-impersonate installation
       run: |
