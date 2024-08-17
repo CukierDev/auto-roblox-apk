@@ -16,7 +16,7 @@ jobs:
       
     - name: Download the XAPK file
       run: |
-        curl -L -o downloaded_file.xapk "https://d.apkpure.com/b/XAPK/com.roblox.client?version=latest"
+        curl -L -o downloaded_file.xapk.zip "https://d.apkpure.com/b/XAPK/com.roblox.client?version=latest"
       
     - name: Install dependencies
       run: |
